@@ -55,7 +55,7 @@ class Tokens:
         return Tokens(list(filter(lambda token:token.tag == WordNet.POS_VERB.value, self.tokens)))
 
     def entities(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag in (WordNet.POS_VERB.value,WordNet.POS_NOUN.value), self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag in (WordNet.POS_VERB.value,WordNet.POS_NOUN.value,WordNet.UNKNOWN.value), self.tokens)))
 
     def paraphrase(self) -> Generator[str, None, None]:
         for index,token in enumerate(self.tokens):

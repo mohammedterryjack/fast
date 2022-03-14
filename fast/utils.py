@@ -40,3 +40,4 @@ class WordNet(Enum):
         ADJ_SAT:"Adjective"
     }
     EXAMPLE_DELIMITER = "; "
+    SYNSET_NAME_DELIMITER = "."

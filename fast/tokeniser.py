@@ -46,7 +46,7 @@ class Tokeniser:
         for id in ids:
             if id < SIZE_WORDNET:
                 synset_name = VOCABULARY[id] 
-                token = synset_name.split(".")[0]
+                token = synset_name.split(WordNet.SYNSET_NAME_DELIMITER.value)[0]
             elif id < SIZE_WORDNET + SIZE_STOPWORDS:
                 synset_name= None
                 token = STOPWORDS[id-SIZE_WORDNET]

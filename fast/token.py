@@ -33,9 +33,10 @@ class Token:
         else:
             if sense_disambiguation_context is None:
                 meaning = wordnet.synset(synset_name)
+                self.id = VOCABULARY.index(synset_name)
             else:
-                meaning = lesk(sense_disambiguation_context,synset_name.split('.')[0])
-            self.id = VOCABULARY.index(synset_name)
+                meaning = lesk(sense_disambiguation_context.split(),synset_name.split(WordNet.SYNSET_NAME_DELIMITER.value)[0])
+                self.id = VOCABULARY.index(meaning.name())
             self.tag = WordNet.POS_MAP.value.get(meaning.pos())
             self.similar_tokens = self.synonyms(normalised_token,meaning)
             self.opposite_tokens = set(self.antonyms(meaning))
