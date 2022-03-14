@@ -1,7 +1,4 @@
 from setuptools import setup, find_packages
-from os import path
-
-here = path.abspath(path.dirname(__file__))
 
 VERSION = '0.0.2'
 DESCRIPTION = 'FFAST: Fast Fourier Analysis for Sentence embeddings and Tokenisation'
