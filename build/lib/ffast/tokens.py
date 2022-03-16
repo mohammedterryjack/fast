@@ -1,8 +1,8 @@
-from typing import List, Generator
+from typing import List, Generator, Optional
 from math import sin,cos
+
 from scipy.stats import gmean, hmean
 from scipy.fft import fftn
-
 from numpy import (
     ndarray, concatenate,
     zeros, mean, max, min, sum
@@ -10,8 +10,8 @@ from numpy import (
 
 from ffast.token import Token
 from ffast.utils import (
-    WordNet, METAPHONES, VOCABULARY,
-    SIZE_WORD_VECTOR, SIZE_SEMANTIC_VECTOR, SIZE_METAPHONES
+    WordNet, METAPHONES, VOCABULARY, RANDOM_MATRIX,
+    SIZE_WORD_VECTOR, SIZE_SEMANTIC_VECTOR, SIZE_METAPHONES,
 )
 
 class Tokens:
@@ -41,6 +41,11 @@ class Tokens:
     
     def __getitem__(self,index:int) -> Token:
         return self.tokens[index]
+
+    def projection(self) -> Optional[ndarray]:
+        if self.vector is None:
+            return None
+        return RANDOM_MATRIX @ self.vector
 
     def skip_unknowns(self) -> "Tokens":
         return Tokens(list(filter(lambda token:token.tag != WordNet.UNKNOWN.value,self.tokens)))
@@ -86,7 +91,7 @@ class Tokens:
             self.__power_means(contextual_token_vectors),
             self.__power_means(dynamics_of_token_vectors)
         ])
-
+        
     @staticmethod
     def __power_means(vectors:List[ndarray]) -> ndarray:
         positive_vectors = list(map(abs,vectors))
