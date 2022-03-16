@@ -4,7 +4,7 @@ from math import sin,cos
 from scipy.stats import gmean, hmean
 from scipy.fft import fftn
 from numpy import (
-    ndarray, concatenate,
+    ndarray, concatenate, argmax, array,
     zeros, mean, max, min, sum
 )
 
@@ -68,19 +68,16 @@ class Tokens:
                 yield f"{' '.join(map(str,self.tokens[:index]))} {similar_token} {' '.join(map(str,self.tokens[index+1:]))}"
         yield str(self)
 
-    def most_similar(self, others:List["Tokens"]) -> "Tokens":
-        scores = list(map(self.__similarity, others))
-        max_score = max(scores)
-        index_best = scores.index(max_score)
+    def most_similar(self, others:List["Tokens"]) -> Optional["Tokens"]:
+        if self.vector is None:
+            return None
+        others_with_vectors = filter(lambda other:other.vector is not None,others)
+        others_vectors = array(list(map(
+            lambda other:other.vector, 
+            others_with_vectors
+        )))
+        index_best = argmax(others_vectors@self.vector)
         return others[index_best]
-
-    def __similarity(self, other:Token) -> int:
-        if self.vector is None or other.vector is None:
-            return 0
-        return self.__dot_similarity(other)
-
-    def __dot_similarity(self, other:Token) -> int:
-        return self.vector @ other.vector
 
     def __sentence_embedding(self) -> ndarray:
         sparse_token_vectors = list(map(self.__embed_token,self.tokens))
