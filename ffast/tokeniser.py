@@ -1,11 +1,11 @@
-from typing import List, Generator
+from typing import List, Generator, Optional
 
 from nltk.util import ngrams
 
 from ffast.tokens import Token, Tokens
 from ffast.utils import (
     WordNet, PREPROCESSOR, 
-    VOCABULARY, VOCABULARY_WORDNET, STOPWORDS, 
+    VOCABULARY, VOCABULARY_WORDNET, STOPWORDS,
     SIZE_STOPWORDS, SIZE_WORDNET
 )
     
