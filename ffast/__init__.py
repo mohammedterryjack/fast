@@ -1,6 +1,10 @@
-__version__ = "0.1.5"
+import nltk
+
+__version__ = "0.1.6"
 WORDNET = "wordnet"
 POINCARE = "poincare"
+nltk.download(WORDNET)
+nltk.download('stopwords')
 
 def load(vectors:str=WORDNET):
     if vectors==WORDNET:
