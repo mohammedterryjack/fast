@@ -18,6 +18,7 @@ tokeniser = load("poincare") #poincare version (smaller vectors)
 see `examples/` to see what you can do!
 
 ## Changelog
+- 0.1.5 taking morphology of the raw token to allow unknown tokens to be encoded
 - 0.1.4 relative download path for poincare embeddings shifted
 - 0.1.3 relative download path bug for poincare embeddings
 - 0.1.2 added download script for poincare text file to fix dependency bug

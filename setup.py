@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.1.4'
+VERSION = '0.1.5'
 DESCRIPTION = 'FFAST: Fast Fourier Analysis for Sentence embeddings and Tokenisation'
 LONG_DESCRIPTION = 'Fast and lightweight NLP pipeline for ML tasks: powerful tokeniser and (model-free) sentence embeddings using Fast Fourier transforms, power means, positional encoding and Wordnet or Poincare Embeddings'
 
@@ -14,7 +14,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
     install_requires=['nltk', 'jellyfish', 'Unidecode', 'numpy', 'scipy'],
-    keywords=['python', 'embedding', 'tokenisation', 'fast fourier', 'nlp', 'nlu', "poincare", "wordnet"],
+    keywords=['python', 'embedding', 'tokenisation', 'fast fourier', 'nlp', 'nlu', "poincare", "wordnet", "lite", "fast", "sentence encoder"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",

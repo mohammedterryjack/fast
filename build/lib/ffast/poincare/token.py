@@ -9,7 +9,7 @@ class Token:
     def __init__(self, raw_token:str, normalised_token:str, vector:ndarray, id:int) -> None:
         self.text = raw_token
         self.morphology = normalised_token
-        self.phonology = metaphone(normalised_token)
+        self.phonology = metaphone(raw_token)
         self.semantics = vector
         self.id = id
 
