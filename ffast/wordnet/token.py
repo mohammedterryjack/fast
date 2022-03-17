@@ -17,7 +17,7 @@ class Token:
     ) -> None:
         self.text = raw_token 
         self.morphology = normalised_token
-        self.phonology = metaphone(normalised_token)
+        self.phonology = metaphone(raw_token)
         self.similar_tokens = set()
         self.opposite_tokens = set()
         self.related_tokens = set()

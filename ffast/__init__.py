@@ -1,13 +1,10 @@
-__version__ = "0.1.0"
+__version__ = "0.1.5"
 WORDNET = "wordnet"
 POINCARE = "poincare"
 
 def load(vectors:str=WORDNET):
     if vectors==WORDNET:
         from ffast.wordnet.tokeniser import Tokeniser
-        from nltk import download
-        download('stopwords')
-        download('wordnet')
         return Tokeniser()
     if vectors==POINCARE:
         from ffast.poincare.tokeniser import Tokeniser
