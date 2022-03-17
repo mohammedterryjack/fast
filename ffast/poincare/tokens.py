@@ -1,4 +1,4 @@
-from typing import List, Generator, Optional
+from typing import List
 from math import sin,cos
 
 from scipy.stats import gmean, hmean
@@ -39,17 +39,14 @@ class Tokens:
     def __getitem__(self,index:int) -> Token:
         return self.tokens[index]
 
+    def semantics(self) -> List[ndarray]:
+        return list(map(lambda token:token.semantics, self.tokens))
+
     def skip_unknowns(self) -> "Tokens":
         return Tokens(list(filter(lambda token:token.morphology != Poincare.UNKNOWN.value,self.tokens)))
 
-    def most_similar(self, others:List["Tokens"]) -> Optional["Tokens"]:
-        if self.vector is None:
-            return None
-        others_with_vectors = filter(lambda other:other.vector is not None,others)
-        others_vectors = array(list(map(
-            lambda other:other.vector, 
-            others_with_vectors
-        )))
+    def most_similar(self, others:List["Tokens"]) -> "Tokens":
+        others_vectors = array(list(map(lambda other:other.vector, others)))
         index_best = argmax(others_vectors@self.vector)
         return others[index_best]
 
