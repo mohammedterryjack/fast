@@ -18,7 +18,7 @@ tokeniser = load("poincare") #poincare version (smaller vectors)
 see `examples.ipynb` to see what you can do!
 
 ## Changelog
-- 0.0.5 poincare model introduced alongside wordnet base model to allow for smaller vectors
+- 0.1.0 poincare model introduced alongside wordnet base model to allow for smaller vectors
 - 0.0.4 dot similarity implemented to compare batch more efficiently
 - 0.0.3 nltk dependencies load bug fixed
 - 0.0.2 scipy load bug fixed
