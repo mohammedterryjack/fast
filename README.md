@@ -15,7 +15,7 @@ tokeniser = load() #wordnet version (more features)
 tokeniser = load("poincare") #poincare version (smaller vectors)
 ```
 
-see `examples.ipynb` to see what you can do!
+see `examples/` to see what you can do!
 
 ## Changelog
 - 0.1.4 relative download path for poincare embeddings shifted
