@@ -8,6 +8,7 @@ ffast.egg-info/dependency_links.txt
 ffast.egg-info/requires.txt
 ffast.egg-info/top_level.txt
 ffast/poincare/__init__.py
+ffast/poincare/poincare.txt
 ffast/poincare/token.py
 ffast/poincare/tokeniser.py
 ffast/poincare/tokens.py
