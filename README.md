@@ -18,6 +18,11 @@ tokeniser = load("poincare") #poincare version (smaller vectors)
 see `examples/` to see what you can do!
 
 ## Changelog
+- 0.1.11 path finally fixed
+- 0.1.10 pathlib added to include local path
+- 0.1.9 path lookup error - updated path to fix
+- 0.1.8 typo fixed. poincare.txt now being packaged
+- 0.1.7 include poincare.txt file in package build to avoid user downloading separately
 - 0.1.6 adding method to poincare tokens to return individual token vectors
 - 0.1.5 taking morphology of the raw token to allow unknown tokens to be encoded
 - 0.1.4 relative download path for poincare embeddings shifted
