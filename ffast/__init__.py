@@ -1,6 +1,6 @@
 import nltk
 
-__version__ = "0.1.6"
+__version__ = "0.1.11"
 WORDNET = "wordnet"
 POINCARE = "poincare"
 nltk.download(WORDNET)
