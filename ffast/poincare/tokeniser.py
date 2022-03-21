@@ -1,7 +1,7 @@
 from typing import List, Generator
 
 from nltk.util import ngrams
-from numpy import zeros
+from numpy import zeros, ndarray, argmax
 
 from ffast.poincare.token import Token
 from ffast.poincare.tokens import Tokens
@@ -15,6 +15,10 @@ class Tokeniser:
     @staticmethod
     def decode(ids:List[int]) -> Tokens:
         return Tokens(list(Tokeniser._convert_ids_to_tokens(ids)))
+    
+    @staticmethod
+    def decode_semantics(poincare_vectors:List[ndarray]) -> Tokens:
+        return Tokeniser.decode(ids=map(Tokeniser._convert_semantics_to_token_id,poincare_vectors))
 
     @staticmethod
     def _tokenise(text:str) -> List[Token]:
@@ -63,3 +67,7 @@ class Tokeniser:
                 vector = vector,
                 id = id
             )
+
+    @staticmethod
+    def _convert_semantics_to_token_id(semantics:ndarray) -> int:
+        return argmax(VECTORS @ semantics)
