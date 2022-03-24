@@ -1,17 +1,12 @@
 from typing import List, Generator, Optional
-from math import sin,cos
+from functools import reduce 
 
-from scipy.stats import gmean, hmean
-from scipy.fft import fftn
-from numpy import (
-    ndarray, concatenate, argmax, array,
-    zeros, mean, max, min, sum
-)
+from numpy import ndarray, concatenate, argmax, array, zeros
 
 from ffast.wordnet.token import Token
 from ffast.wordnet.utils import (
-    WordNet, METAPHONES, VOCABULARY, RANDOM_MATRIX,
-    SIZE_WORD_VECTOR, SIZE_SEMANTIC_VECTOR, SIZE_METAPHONES,
+    WordNet, METAPHONES, VOCABULARY,
+    SIZE_SEMANTIC_VECTOR, SIZE_METAPHONES
 )
 
 class Tokens:
@@ -41,11 +36,6 @@ class Tokens:
     
     def __getitem__(self,index:int) -> Token:
         return self.tokens[index]
-
-    def projection(self) -> Optional[ndarray]:
-        if self.vector is None:
-            return None
-        return RANDOM_MATRIX @ self.vector
 
     def skip_unknowns(self) -> "Tokens":
         return Tokens(list(filter(lambda token:token.tag != WordNet.UNKNOWN.value,self.tokens)))
@@ -81,41 +71,14 @@ class Tokens:
 
     def __sentence_embedding(self) -> ndarray:
         sparse_token_vectors = list(map(self.__embed_token,self.tokens))
-        position_vectors = list(map(self.__embed_position,range(len(self.tokens))))
-        contextual_token_vectors = sum([sparse_token_vectors,position_vectors],axis=0)
-        dynamics_of_token_vectors = self.__fourier_transformation(sparse_token_vectors)
         return concatenate([
-            self.__power_means(contextual_token_vectors),
-            self.__power_means(dynamics_of_token_vectors)
+            reduce(lambda vector1,vector2: vector1 & vector2, sparse_token_vectors),
+            reduce(lambda vector1,vector2: vector1 | vector2, sparse_token_vectors)
         ])
         
     @staticmethod
-    def __power_means(vectors:List[ndarray]) -> ndarray:
-        positive_vectors = list(map(abs,vectors))
-        return concatenate([
-            max(vectors,axis=0),
-            min(vectors,axis=0),
-            mean(vectors,axis=0),
-            gmean(positive_vectors),
-            hmean(positive_vectors),
-        ])
-    
-    @staticmethod
-    def __fourier_transformation(vectors:List[ndarray]) -> ndarray:
-        return abs(fftn(vectors))
-
-    @staticmethod 
-    def __embed_position(position:int) -> ndarray:
-        position_vector = zeros(SIZE_WORD_VECTOR)
-        for index in range(0,SIZE_WORD_VECTOR-1,2):
-            angle = position/(1e5 ** ((2*index)/SIZE_WORD_VECTOR))
-            position_vector[index]=sin(angle)
-            position_vector[index+1]=cos(angle)
-        return position_vector
-
-    @staticmethod
     def __embed_token_phonetics(token:Token) -> ndarray:
-        embedding = zeros(SIZE_METAPHONES)
+        embedding = zeros(SIZE_METAPHONES,dtype=int)
         for character in token.phonology:
             metaphone_index = METAPHONES.index(character)
             embedding[metaphone_index] = 1
@@ -123,7 +86,7 @@ class Tokens:
 
     @staticmethod
     def __embed_token_semantics(token:Token) -> ndarray:
-        embedding = zeros(SIZE_SEMANTIC_VECTOR)
+        embedding = zeros(SIZE_SEMANTIC_VECTOR,dtype=int)
         if token.id > SIZE_SEMANTIC_VECTOR:
             return embedding
         embedding[token.id] = 1
@@ -138,4 +101,3 @@ class Tokens:
             Tokens.__embed_token_phonetics(token),
             Tokens.__embed_token_semantics(token),
         ])    
-    

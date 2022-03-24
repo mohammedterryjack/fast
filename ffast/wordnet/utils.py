@@ -5,8 +5,6 @@ from nltk.corpus import stopwords
 from nltk.corpus.reader.wordnet import Synset
 from nltk.corpus import wordnet
 from nltk.corpus.reader.wordnet import ADJ, ADJ_SAT, ADV, NOUN, VERB
-from numpy.random import uniform
-from numpy.random import seed
 
 from ffast.preprocessor import PreprocessingPipeline
 
@@ -18,8 +16,6 @@ def create_vocabulary() -> Generator[Tuple[str,Synset],None,None]:
                 meaning.name()
             )
 
-seed(0)
-
 PREPROCESSOR = PreprocessingPipeline()
 STOPWORDS = sorted(stopwords.words('english'))
 VOCABULARY_WORDNET = dict(create_vocabulary())
@@ -30,9 +26,7 @@ METAPHONES = "ABCEFHIJKLMNOPRSTUWXY0. "
 SIZE_METAPHONES = len(METAPHONES)
 SIZE_SEMANTIC_VECTOR = SIZE_STOPWORDS + SIZE_WORDNET 
 SIZE_WORD_VECTOR = SIZE_SEMANTIC_VECTOR + SIZE_METAPHONES 
-SIZE_SENTENCE_VECTOR = 2*(5*SIZE_WORD_VECTOR)
-SIZE_PROJECTION = 100
-RANDOM_MATRIX = uniform(size=(SIZE_PROJECTION,SIZE_SENTENCE_VECTOR))
+SIZE_SENTENCE_VECTOR = 2*SIZE_WORD_VECTOR 
 
 class WordNet(Enum):
     SKIP = "skip"
