@@ -18,7 +18,8 @@ tokeniser = load("poincare") #poincare version (smaller vectors)
 see `examples/` to see what you can do!
 
 ## Changelog
-- 0.2.01 decode poincare vector/semantics into tokens
+- 0.2.2 wordnet sentence vectors remain sparse vectors. projections removed (since small dense vectors are covered by poincare model)
+- 0.2.1 decode poincare vector/semantics into tokens
 - 0.1.11 path finally fixed
 - 0.1.10 pathlib added to include local path
 - 0.1.9 path lookup error - updated path to fix
