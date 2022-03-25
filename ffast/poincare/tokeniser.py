@@ -9,6 +9,10 @@ from ffast.poincare.utils import Poincare, PREPROCESSOR, VOCABULARY, VECTORS
 
 class Tokeniser:
     @staticmethod
+    def __len__() -> int:
+        return len(VOCABULARY)
+
+    @staticmethod
     def encode(text:str) -> Tokens:
         return Tokens(Tokeniser._tokenise(text))
     
