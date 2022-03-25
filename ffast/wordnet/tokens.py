@@ -73,7 +73,8 @@ class Tokens:
         sparse_token_vectors = list(map(self.__embed_token,self.tokens))
         return concatenate([
             reduce(lambda vector1,vector2: vector1 & vector2, sparse_token_vectors),
-            reduce(lambda vector1,vector2: vector1 | vector2, sparse_token_vectors)
+            reduce(lambda vector1,vector2: vector1 | vector2, sparse_token_vectors),
+            reduce(lambda vector1,vector2: vector1 ^ vector2, sparse_token_vectors),
         ])
         
     @staticmethod
