@@ -11,6 +11,10 @@ from ffast.wordnet.utils import (
     
 class Tokeniser:
     @staticmethod
+    def __len__() -> int:
+        return SIZE_WORDNET
+
+    @staticmethod
     def encode(text:str) -> Tokens:
         return Tokens(Tokeniser._tokenise(text))
 
