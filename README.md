@@ -11,13 +11,17 @@ Fast and lightweight NLP pipeline for ML tasks: powerful tokeniser and (model-fr
 ```python
 from ffast import load
 
-tokeniser = load() #wordnet version (more features)
-tokeniser = load("poincare") #poincare version (smaller vectors)
+tokeniser = load() #wordnet version (sparse vectors)
+tokeniser = load("poincare") #poincare version (dense vectors)
 ```
 
 see `examples/` to see what you can do!
 
 ## Changelog
+- 0.3.2 bug fix in wordnet tokeniser where raw and preprocessed tokens were swapped
+- 0.3.1 bug fix with encoder and special tokens
+- 0.3.0 add padding feature to tokenisers
+- 0.2.5 embedding size added to tokeniser class. customisable special tokens for tokenisers. 
 - 0.2.4 vocab size can be queries by taking length of tokeniser
 - 0.2.3 wordnet setence vectors combined using xor as well as and, or
 - 0.2.2 wordnet sentence vectors remain sparse vectors. projections removed (since small dense vectors are covered by poincare model)
