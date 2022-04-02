@@ -18,6 +18,7 @@ tokeniser = load("poincare") #poincare version (dense vectors)
 see `examples/` to see what you can do!
 
 ## Changelog
+- 0.3.5 nltk packages downloaded during pip install
 - 0.3.3 add size of token vector for poincare. padding with special pad id, not 0
 - 0.3.2 bug fix in wordnet tokeniser where raw and preprocessed tokens were swapped
 - 0.3.1 bug fix with encoder and special tokens
