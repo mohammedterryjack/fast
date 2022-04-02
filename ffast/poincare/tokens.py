@@ -5,7 +5,7 @@ from scipy.stats import gmean, hmean
 from scipy.fft import fftn
 from numpy import (
     ndarray, concatenate, argmax, array,
-    zeros, mean, max, min, sum
+    zeros, mean, max, min, sum, pad
 )
 
 from ffast.poincare.token import Token
@@ -38,6 +38,9 @@ class Tokens:
     
     def __getitem__(self,index:int) -> Token:
         return self.tokens[index]
+
+    def __round__(self, n:int) -> ndarray:
+        return pad(self.ids, pad_width=(0,n))[:n]
 
     def semantics(self) -> List[ndarray]:
         return list(map(lambda token:token.semantics, self.tokens))
