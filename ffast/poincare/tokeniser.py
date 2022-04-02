@@ -28,6 +28,7 @@ class Tokeniser:
         return Tokens(list(self._convert_ids_to_tokens(ids)),pad_token_id=len(self)-1)
     
     def _tokenise(self, text:str) -> List[Token]:
+        unknown_token_id = len(self)-1
         words = text.split()
         number_of_words = len(words)
         tokens = [None]*number_of_words
@@ -38,8 +39,8 @@ class Tokeniser:
                     continue 
                 raw_token = ' '.join(words[index_start:index_end])
                 normalised_token = PREPROCESSOR.normalise(text=' '.join(ngram))
-                if raw_token in self.special_tokens:
-                    id = Poincare.SIZE_VOCABULARY.value + self.special_tokens.index(raw_token)
+                if normalised_token in self.special_tokens:
+                    id = Poincare.SIZE_VOCABULARY.value + self.special_tokens.index(normalised_token)
                     vector = full(Poincare.SIZE_VECTOR.value,-1)
                 elif raw_token in VOCABULARY:
                     id = VOCABULARY.index(raw_token)
@@ -48,10 +49,10 @@ class Tokeniser:
                     id = VOCABULARY.index(normalised_token)
                     vector = VECTORS[id]
                 else:
-                    id = len(self)-1
+                    id = unknown_token_id
                     vector = zeros(Poincare.SIZE_VECTOR.value)
                     normalised_token = Poincare.UNKNOWN.value
-                if id <= Poincare.SIZE_VOCABULARY.value or ngram_size==1:
+                if id != unknown_token_id or ngram_size==1:
                     tokens[index_start:index_end] = [Poincare.SKIP.value]*ngram_size
                     tokens[index_start] = Token(
                         raw_token=raw_token,
