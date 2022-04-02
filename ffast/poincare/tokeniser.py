@@ -10,6 +10,7 @@ from ffast.poincare.utils import Poincare, PREPROCESSOR, VOCABULARY, VECTORS, SI
 class Tokeniser:
     def __init__(self) -> None:
         self.size = SIZE_SENTENCE_VECTOR
+        self.token_size = Poincare.SIZE_VECTOR.value
         self.special_tokens = list()
 
     def __len__(self) -> int:
@@ -21,10 +22,10 @@ class Tokeniser:
             self.special_tokens.sort()
 
     def encode(self, text:str) -> Tokens:
-        return Tokens(self._tokenise(text))
+        return Tokens(self._tokenise(text),pad_token_id=len(self)-1)
     
     def decode(self, ids:List[int]) -> Tokens:
-        return Tokens(list(self._convert_ids_to_tokens(ids)))
+        return Tokens(list(self._convert_ids_to_tokens(ids)),pad_token_id=len(self)-1)
     
     def _tokenise(self, text:str) -> List[Token]:
         words = text.split()
@@ -47,7 +48,7 @@ class Tokeniser:
                     id = VOCABULARY.index(normalised_token)
                     vector = VECTORS[id]
                 else:
-                    id = len(self)
+                    id = len(self)-1
                     vector = zeros(Poincare.SIZE_VECTOR.value)
                     normalised_token = Poincare.UNKNOWN.value
                 if id <= Poincare.SIZE_VOCABULARY.value or ngram_size==1:
