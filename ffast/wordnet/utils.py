@@ -31,6 +31,7 @@ SIZE_SENTENCE_VECTOR = 3*SIZE_WORD_VECTOR
 class WordNet(Enum):
     SKIP = "skip"
     UNKNOWN = "<Unknown>"
+    SPECIAL = "<Special>"
     STOPWORD = "<StopWord>"
     POS_NOUN = "Noun"
     POS_VERB = "Verb"

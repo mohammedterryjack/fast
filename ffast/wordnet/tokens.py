@@ -1,7 +1,7 @@
 from typing import List, Generator, Optional
 from functools import reduce 
 
-from numpy import ndarray, concatenate, argmax, array, zeros
+from numpy import ndarray, concatenate, argmax, array, zeros, pad
 
 from ffast.wordnet.token import Token
 from ffast.wordnet.utils import (
@@ -37,6 +37,9 @@ class Tokens:
     def __getitem__(self,index:int) -> Token:
         return self.tokens[index]
 
+    def __round__(self, n:int) -> ndarray:
+        return pad(self.ids, pad_width=(0,n))[:n]
+
     def skip_unknowns(self) -> "Tokens":
         return Tokens(list(filter(lambda token:token.tag != WordNet.UNKNOWN.value,self.tokens)))
 
@@ -50,7 +53,7 @@ class Tokens:
         return Tokens(list(filter(lambda token:token.tag == WordNet.POS_VERB.value, self.tokens)))
 
     def entities(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag in (WordNet.POS_VERB.value,WordNet.POS_NOUN.value,WordNet.UNKNOWN.value), self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag in (WordNet.POS_VERB.value,WordNet.POS_NOUN.value,WordNet.UNKNOWN.value,WordNet.SPECIAL.value), self.tokens)))
 
     def paraphrase(self) -> Generator[str, None, None]:
         for index,token in enumerate(self.tokens):
@@ -88,7 +91,7 @@ class Tokens:
     @staticmethod
     def __embed_token_semantics(token:Token) -> ndarray:
         embedding = zeros(SIZE_SEMANTIC_VECTOR,dtype=int)
-        if token.id > SIZE_SEMANTIC_VECTOR:
+        if token.id >= SIZE_SEMANTIC_VECTOR:
             return embedding
         embedding[token.id] = 1
         for name in token.semantics:

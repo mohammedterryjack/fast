@@ -13,7 +13,8 @@ from jellyfish import metaphone
 class Token:
     def __init__(
         self, raw_token:str, normalised_token:str, 
-        synset_name:Optional[str],sense_disambiguation_context:Optional[str]=None
+        synset_name:Optional[str],SPECIAL_TOKENS:Optional[List[str]],
+        sense_disambiguation_context:Optional[str]=None
     ) -> None:
         self.text = raw_token 
         self.morphology = normalised_token
@@ -24,7 +25,10 @@ class Token:
         self.semantics = set()
         self.definition = None
         self.example = None
-        if normalised_token in STOPWORDS: 
+        if raw_token in SPECIAL_TOKENS:
+            self.id = SIZE_WORDNET + SIZE_STOPWORDS + SPECIAL_TOKENS.index(raw_token)
+            self.tag = WordNet.SPECIAL.value
+        elif normalised_token in STOPWORDS: 
             self.id = SIZE_WORDNET + STOPWORDS.index(normalised_token)
             self.tag = WordNet.STOPWORD.value            
         elif synset_name is None:
