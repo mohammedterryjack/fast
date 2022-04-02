@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from setuptools.command.install import install as _install
 
-VERSION = '0.3.5'
+VERSION = '0.3.10'
 DESCRIPTION = 'FFAST: Fast Fourier Analysis for Sentence embeddings and Tokenisation'
 LONG_DESCRIPTION = 'Fast and lightweight NLP pipeline for ML tasks: powerful tokeniser and (model-free) sentence embeddings using Fast Fourier transforms, power means, positional encoding and Wordnet or Poincare Embeddings'
 
