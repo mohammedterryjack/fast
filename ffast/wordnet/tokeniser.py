@@ -23,10 +23,10 @@ class Tokeniser:
             self.special_tokens.sort()
 
     def encode(self, text:str) -> Tokens:
-        return Tokens(self._tokenise(text))
+        return Tokens(self._tokenise(text), pad_token_id=len(self)-1)
 
     def decode(self, ids:List[int]) -> Tokens:
-        return Tokens(list(self._convert_ids_to_tokens(ids)))
+        return Tokens(list(self._convert_ids_to_tokens(ids)),pad_token_id=len(self)-1)
 
     def _tokenise(self, text:str) -> List[Token]:
         words = text.split()

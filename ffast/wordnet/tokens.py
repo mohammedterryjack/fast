@@ -10,7 +10,7 @@ from ffast.wordnet.utils import (
 )
 
 class Tokens:
-    def __init__(self, tokens:List[Token]) -> None:
+    def __init__(self, tokens:List[Token], pad_token_id:int) -> None:
         self.tokens = tokens
         self.__pointer = -1
         self.ids = list(map(lambda token:token.id,self))
@@ -38,7 +38,7 @@ class Tokens:
         return self.tokens[index]
 
     def __round__(self, n:int) -> ndarray:
-        return pad(self.ids, pad_width=(0,n))[:n]
+        return pad(self.ids, pad_width=(0,n), constant_values=self.pad_token_id)[:n]
 
     def skip_unknowns(self) -> "Tokens":
         return Tokens(list(filter(lambda token:token.tag != WordNet.UNKNOWN.value,self.tokens)))
