@@ -11,6 +11,7 @@ from ffast.wordnet.utils import (
 
 class Tokens:
     def __init__(self, tokens:List[Token], pad_token_id:int) -> None:
+        self.pad_token_id = pad_token_id
         self.tokens = tokens
         self.__pointer = -1
         self.ids = list(map(lambda token:token.id,self))
@@ -41,19 +42,19 @@ class Tokens:
         return pad(self.ids, pad_width=(0,n), constant_values=self.pad_token_id)[:n]
 
     def skip_unknowns(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag != WordNet.UNKNOWN.value,self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag != WordNet.UNKNOWN.value,self.tokens)),pad_token_id=self.pad_token_id)
 
     def skip_stopwords(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag != WordNet.STOPWORD.value,self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag != WordNet.STOPWORD.value,self.tokens)),pad_token_id=self.pad_token_id)
     
     def nouns(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag == WordNet.POS_NOUN.value, self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag == WordNet.POS_NOUN.value, self.tokens)),pad_token_id=self.pad_token_id)
 
     def verbs(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag == WordNet.POS_VERB.value, self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag == WordNet.POS_VERB.value, self.tokens)),pad_token_id=self.pad_token_id)
 
     def entities(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.tag in (WordNet.POS_VERB.value,WordNet.POS_NOUN.value,WordNet.UNKNOWN.value,WordNet.SPECIAL.value), self.tokens)))
+        return Tokens(list(filter(lambda token:token.tag in (WordNet.POS_VERB.value,WordNet.POS_NOUN.value,WordNet.UNKNOWN.value,WordNet.SPECIAL.value), self.tokens)),pad_token_id=self.pad_token_id)
 
     def paraphrase(self) -> Generator[str, None, None]:
         for index,token in enumerate(self.tokens):
