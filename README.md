@@ -18,6 +18,7 @@ tokeniser = load("poincare") #poincare version (dense vectors)
 see `examples/` to see what you can do!
 
 ## Changelog
+- 0.3.11 bug fix, wordnet entities() missing pad_token_id in initialisation
 - 0.3.10 bug fix, give priority to special tokens during tokenisation
 - 0.3.6 bug fix pad_token_id in wordnet tokeniser and token parsing in poincare tokeniser
 - 0.3.5 nltk packages downloaded during pip install
