@@ -3,13 +3,16 @@ from math import sin,cos
 
 from scipy.stats import gmean, hmean
 from scipy.fft import fftn
+from numpy.linalg import norm
 from numpy import (
     ndarray, concatenate, argmax, array,
-    zeros, mean, max, min, sum, pad
+    zeros, mean, sum, pad
 )
+import numpy
 
 from ffast.poincare.token import Token
 from ffast.poincare.utils import Poincare, METAPHONES, SIZE_METAPHONES
+from ffast.wordnet.utils import STOPWORDS
 
 class Tokens:
     def __init__(self, tokens:List[Token], pad_token_id:int) -> None:
@@ -45,9 +48,15 @@ class Tokens:
 
     def semantics(self) -> List[ndarray]:
         return list(map(lambda token:token.semantics, self.tokens))
+    
+    def weights(self) -> List[float]:
+        return list(map(self.__weight,self.tokens))
+
+    def skip_common_words(self) -> "Tokens":
+        return Tokens(list(filter(lambda token:self.__weight(token)>0.,self.tokens)),pad_token_id=self.pad_token_id)
 
     def skip_unknowns(self) -> "Tokens":
-        return Tokens(list(filter(lambda token:token.morphology != Poincare.UNKNOWN.value,self.tokens)))
+        return Tokens(list(filter(lambda token:token.morphology != Poincare.UNKNOWN.value,self.tokens)),pad_token_id=self.pad_token_id)
 
     def most_similar(self, others:List["Tokens"]) -> "Tokens":
         others_vectors = array(list(map(lambda other:other.vector, others)))
@@ -68,8 +77,8 @@ class Tokens:
     def __power_means(vectors:List[ndarray]) -> ndarray:
         positive_vectors = list(map(abs,vectors))
         return concatenate([
-            max(vectors,axis=0),
-            min(vectors,axis=0),
+            numpy.max(vectors,axis=0),
+            numpy.min(vectors,axis=0),
             mean(vectors,axis=0),
             gmean(positive_vectors),
             hmean(positive_vectors),
@@ -108,3 +117,10 @@ class Tokens:
             Tokens.__embed_token_semantics(token),
         ])    
     
+    @staticmethod
+    def __weight(token:Token,minimum_weight:float = 0.,maximum_weight:float = 1.,scaling_factor:float = 10.) -> float:
+        if token.text in STOPWORDS:
+            return 0.
+        approximation_of_token_frequency = .5 - norm(token.semantics)
+        approximation_of_token_frequency *= scaling_factor
+        return min(maximum_weight,max(minimum_weight,approximation_of_token_frequency))
