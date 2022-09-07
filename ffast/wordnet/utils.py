@@ -1,9 +1,15 @@
 from typing import Generator, Tuple
 from enum import Enum 
+from pathlib import Path 
 
-from nltk.corpus import stopwords
+import nltk
+
+DATA_PATH = f"{Path(__file__).parent}/nltk_data"
+if DATA_PATH not in nltk.data.path:
+    nltk.data.path.append(DATA_PATH)
+
+from nltk.corpus import stopwords, wordnet
 from nltk.corpus.reader.wordnet import Synset
-from nltk.corpus import wordnet
 from nltk.corpus.reader.wordnet import ADJ, ADJ_SAT, ADV, NOUN, VERB
 
 from ffast.preprocessor import PreprocessingPipeline
