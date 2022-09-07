@@ -18,6 +18,7 @@ tokeniser = load("poincare") #poincare version (dense vectors)
 see `examples/` to see what you can do!
 
 ## Changelog
+- 0.4.10 nltk data no longer needs downloading
 - 0.3.16 poincare weights for stopwords forced to 0.
 - 0.3.15 bug fixes, import norm. filter expression. min,max clash with numpy
 - 0.3.12 bug fix, poincare skip_commons() missing pad_token_id. also included token weights
