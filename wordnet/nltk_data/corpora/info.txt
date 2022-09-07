@@ -1,5 +1,0 @@
-add the following files here:
-
-stopwords.zip 
-wordnet.zip 
-omw-1.4.zip
